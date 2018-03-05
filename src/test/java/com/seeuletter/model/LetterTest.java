@@ -71,16 +71,25 @@ public class LetterTest extends BaseTest {
     @Test
     public void testCreateCertifiedLetter() throws Exception {
 
+        final File file = new File(getClass().getClassLoader().getResource("PDF_Lettre_Bienvenue.pdf").getPath());
+
+        final Map<String, String> variables = new HashMap<String, String>();
+        variables.put("name", "Seeuletter.com");
+
         SeeuletterResponse<Letter> response = new Letter.RequestBuilder()
-                .setSourceFile("<h1>Hello from Seeuletter</h1>")
                 .setTo(new Address.RequestBuilder()
                         .setName("Seeuletter")
                         .setLine1("25 passage dubail")
                         .setCity("Paris")
                         .setPostalCode("75010")
                         .setCountry("France"))
+                .setSourceFile("<h1>Hello from {{name}}</h1>")
                 .setSourceFileType("html")
+                .setSourceFile2(file)
+                .setSourceFile2Type("file")
                 .setPostageType("prioritaire")
+                .setPdfMargin(20)
+                .setVariables(variables)
                 .setColor("bw")
                 .create();
 
@@ -89,6 +98,10 @@ public class LetterTest extends BaseTest {
         assertEquals(200, response.getResponseCode());
         assertNotNull(letter.getId());
         assertEquals("letter", letter.getObject());
+        assertEquals(Integer.valueOf(2), letter.getPageCount());
+        assertEquals(Integer.valueOf(1), letter.getSheetCount());
+        assertEquals("test", letter.getMode());
+        assertEquals("75010", letter.getTo().getPostalCode());
     }
 
 }

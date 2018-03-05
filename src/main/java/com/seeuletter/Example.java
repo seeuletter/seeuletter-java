@@ -5,15 +5,22 @@ import com.seeuletter.model.Address;
 import com.seeuletter.model.Letter;
 import com.seeuletter.net.SeeuletterResponse;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Example {
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Welcome to Java Programming!");
+        System.out.println("Seeuletter Java Wrapper");
 
-        Seeuletter.init("test_9de14732-7726-41c3-8e5f-daf071d2756a");
+        Seeuletter.init("test_f23ac669-f7ee-4f2a-a669-e843e9c2938c");
+
+
+        final Map<String, String> variables = new HashMap<String, String>();
+        variables.put("website", "Seeuletter.com");
+
 
         SeeuletterResponse<Letter> response = new Letter.RequestBuilder()
-                .setSourceFile("<h1>Hello from Seeuletter</h1>")
                 .setTo(
                         new Address.RequestBuilder()
                                 .setName("Seeuletter")
@@ -23,8 +30,11 @@ public class Example {
                                 .setCountry("France")
                 )
                 .setSourceFileType("html")
+                .setSourceFile("<h1>Hello from {{website}}</h1>")
                 .setPostageType("prioritaire")
                 .setColor("bw")
+                .setVariables(variables)
+                .setPdfMargin(20)
                 .create();
 
         Letter letter = response.getResponseBody();
@@ -33,8 +43,21 @@ public class Example {
         System.out.println(letter.getCreatedAt());
         System.out.println(letter.getTo().getPostalCode());
         System.out.println(letter.getFile().getUrl());
+        System.out.println(letter.getPrice());
+        System.out.println(letter.getVariables());
+        System.out.println(letter.getEvents());
         //System.out.println(letter.getFile());
 
+
+
+
+        SeeuletterResponse<Letter> response_get = Letter.retrieve("B18L9ljuz");
+        Letter Letter = response_get.getResponseBody();
+
+
+        System.out.println(Letter);
+
     } // end method main
+
 
 }

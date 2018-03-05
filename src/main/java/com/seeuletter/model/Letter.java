@@ -30,7 +30,6 @@ public class Letter extends APIResource {
     @JsonProperty private final String color;
     @JsonProperty private final boolean bothSides;
     @JsonProperty private final String addressPlacement;
-    @JsonProperty private final String sourceFileType;
     @JsonProperty private final String postageType;
     @JsonProperty private final String postageSpeed;
     @JsonProperty private final boolean manageDeliveryProof;
@@ -38,6 +37,11 @@ public class Letter extends APIResource {
     @JsonProperty private final Integer pdfMargin;
     @JsonProperty private final String envelope;
     @JsonProperty private final com.seeuletter.model.File file;
+    @JsonProperty private final com.seeuletter.model.File filingProof;
+    @JsonProperty private final List<Event> events;
+    @JsonProperty private final Price price;
+    @JsonProperty private final String sourceFile;
+    @JsonProperty private final String sourceFileType;
     @JsonProperty private final String sourceFile2;
     @JsonProperty private final String sourceFile2Type;
     @JsonProperty private final Integer sheetCount;
@@ -47,7 +51,8 @@ public class Letter extends APIResource {
     @JsonProperty private final ZonedDateTime updatedAt;
     @JsonProperty private final ZonedDateTime sendDate;
     @JsonProperty private final Map<String, String> metadata;
-    @JsonProperty private final boolean deleted;
+    @JsonProperty private final Map<String, String> variables;
+    @JsonProperty private final boolean canceled;
     @JsonProperty private final String object;
 
     @JsonCreator
@@ -61,6 +66,9 @@ public class Letter extends APIResource {
             @JsonProperty("both_sides") final boolean bothSides,
             @JsonProperty("address_placement") final String addressPlacement,
             @JsonProperty("source_file_type") final String sourceFileType,
+            @JsonProperty("source_file") final String sourceFile,
+            @JsonProperty("source_file_2") final String sourceFile2,
+            @JsonProperty("source_file_2_type") final String sourceFile2Type,
             @JsonProperty("postage_type") final String postageType,
             @JsonProperty("postage_speed") final String postageSpeed,
             @JsonProperty("manage_delivery_proof") final boolean manageDeliveryProof,
@@ -69,15 +77,17 @@ public class Letter extends APIResource {
             @JsonProperty("pdf_margin") final Integer pdfMargin,
             @JsonProperty("envelope") final String envelope,
             @JsonProperty("file") final com.seeuletter.model.File file,
-            @JsonProperty("source_file_2") final String sourceFile2,
-            @JsonProperty("source_file_2_type") final String sourceFile2Type,
+            @JsonProperty("filing_proof") final com.seeuletter.model.File filingProof,
+            @JsonProperty("tracking_events") final List<Event> events,
+            @JsonProperty("price") final Price price,
             @JsonProperty("tracking_number") final String trackingNumber,
+            @JsonProperty("variables") final Map<String, String> variables,
             @JsonProperty("expected_delivery_date") final LocalDate expectedDeliveryDate,
             @JsonProperty("created_at") final ZonedDateTime createdAt,
             @JsonProperty("updated_at") final ZonedDateTime updatedAt,
             @JsonProperty("send_date") final ZonedDateTime sendDate,
             @JsonProperty("metadata") final Map<String, String> metadata,
-            @JsonProperty("deleted") final boolean deleted,
+            @JsonProperty("canceled") final boolean canceled,
             @JsonProperty("object") final String object) {
         this._id = _id;
         this.description = description;
@@ -87,6 +97,7 @@ public class Letter extends APIResource {
         this.color = color;
         this.bothSides = bothSides;
         this.addressPlacement = addressPlacement;
+        this.sourceFile = sourceFile;
         this.sourceFileType = sourceFileType;
         this.postageType = postageType;
         this.postageSpeed = postageSpeed;
@@ -95,6 +106,9 @@ public class Letter extends APIResource {
         this.pdfMargin = pdfMargin;
         this.envelope = envelope;
         this.file = file;
+        this.filingProof = filingProof;
+        this.events = events;
+        this.price = price;
         this.sourceFile2 = sourceFile2;
         this.sourceFile2Type = sourceFile2Type;
         this.sheetCount = sheetCount;
@@ -104,7 +118,8 @@ public class Letter extends APIResource {
         this.updatedAt = updatedAt;
         this.sendDate = sendDate;
         this.metadata = metadata;
-        this.deleted = deleted;
+        this.variables = variables;
+        this.canceled = canceled;
         this.object = object;
     }
 
@@ -148,9 +163,14 @@ public class Letter extends APIResource {
         return postageSpeed;
     }
 
+    public String getSourceFile() {
+        return sourceFile;
+    }
+
     public String getSourceFileType() {
         return sourceFileType;
     }
+
 
     public boolean isManageDeliveryProof() {
         return manageDeliveryProof;
@@ -158,6 +178,10 @@ public class Letter extends APIResource {
 
     public Integer getPageCount() {
         return pageCount;
+    }
+
+    public Price getPrice() {
+        return price;
     }
 
     public Integer getPdfMargin() {
@@ -168,8 +192,16 @@ public class Letter extends APIResource {
         return envelope;
     }
 
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
     public com.seeuletter.model.File getFile() {
         return file;
+    }
+    public com.seeuletter.model.File getFilingProof() {
+        return filingProof;
     }
 
     public String getSourceFile2() {
@@ -208,8 +240,12 @@ public class Letter extends APIResource {
         return metadata;
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public Map<String, String> getVariables() {
+        return variables;
+    }
+
+    public boolean isCanceled() {
+        return canceled;
     }
 
     public String getObject() {
@@ -227,7 +263,10 @@ public class Letter extends APIResource {
                 ", color=" + color +
                 ", bothSides=" + bothSides +
                 ", addressPlacement='" + addressPlacement + '\'' +
+                ", sourceFile='" + sourceFile + '\'' +
                 ", sourceFileType='" + sourceFileType + '\'' +
+                ", sourceFile2='" + sourceFile2 + '\'' +
+                ", sourceFile2Type='" + sourceFile2Type + '\'' +
                 ", postageType='" + postageType + '\'' +
                 ", postageSpeed='" + postageSpeed + '\'' +
                 ", manageDeliveryProof=" + manageDeliveryProof +
@@ -235,8 +274,9 @@ public class Letter extends APIResource {
                 ", pdfMargin='" + pdfMargin + '\'' +
                 ", envelope='" + envelope + '\'' +
                 ", file='" + file + '\'' +
-                ", sourceFile2='" + sourceFile2 + '\'' +
-                ", sourceFile2Type='" + sourceFile2Type + '\'' +
+                ", filingProof='" + filingProof + '\'' +
+                ", events='" + events + '\'' +
+                ", price='" + price + '\'' +
                 ", sheetCount='" + sheetCount + '\'' +
                 ", trackingNumber='" + trackingNumber + '\'' +
                 ", expectedDeliveryDate=" + expectedDeliveryDate +
@@ -244,7 +284,7 @@ public class Letter extends APIResource {
                 ", updatedAt=" + updatedAt +
                 ", sendDate=" + sendDate +
                 ", metadata=" + metadata +
-                ", deleted=" + deleted +
+                ", canceled=" + canceled +
                 ", object='" + object + '\'' +
                 '}';
     }
@@ -298,8 +338,30 @@ public class Letter extends APIResource {
             return this;
         }
 
+        public RequestBuilder setSourceFileType(String sourceFileType) {
+            params.put("source_file_type", sourceFileType);
+            return this;
+        }
+
+        public RequestBuilder setSourceFile2(String sourceFile2) {
+            params.put("source_file_2", sourceFile2);
+            return this;
+        }
+
+        public RequestBuilder setSourceFile2(File sourceFile2) {
+            isMultipart = true;
+            params.put("source_file_2", sourceFile2);
+            return this;
+        }
+
+        public RequestBuilder setSourceFile2Type(String sourceFile2Type) {
+            params.put("source_file_2_type", sourceFile2Type);
+            return this;
+        }
+
+
         public RequestBuilder setVariables(Map<String, String> variables) {
-            params.put("merge_variables", variables);
+            params.put("variables", variables);
             return this;
         }
 
@@ -310,11 +372,6 @@ public class Letter extends APIResource {
 
         public RequestBuilder setAddressPlacement(String addressPlacement) {
             params.put("address_placement", addressPlacement);
-            return this;
-        }
-
-        public RequestBuilder setSourceFileType(String sourceFileType) {
-            params.put("source_file_type", sourceFileType);
             return this;
         }
 
@@ -347,17 +404,6 @@ public class Letter extends APIResource {
             params.put("pdf_margin", pdfMargin);
             return this;
         }
-
-        public RequestBuilder setSendDate(String sendDate) {
-            params.put("send_date", sendDate);
-            return this;
-        }
-
-        public RequestBuilder setSendDate(ZonedDateTime sendDate) {
-            params.put("send_date", sendDate);
-            return this;
-        }
-
 
         public RequestBuilder setMetadata(Map<String, String> metadata) {
             params.put("metadata", metadata);

@@ -20,7 +20,7 @@ public class File {
     @Override
     public String toString() {
         return "File{" +
-                "url=" + url + + '\'' +
+                "url=" + url + '\'' +
                 '}';
     }
 
