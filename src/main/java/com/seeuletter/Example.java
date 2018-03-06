@@ -31,7 +31,7 @@ public class Example {
                 )
                 .setSourceFileType("html")
                 .setPostageSpeed("D1")
-                .setDescription("Send with the Java Wrapper")
+                .setDescription("Sent with the Java Wrapper")
                 .setBothSides(false)
                 .setSourceFile("<h1>Hello from {{website}}</h1>")
                 .setPostageType("prioritaire")
