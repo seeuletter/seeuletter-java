@@ -31,6 +31,7 @@
     </scm>
 
     <properties>
+        <github.global.server>github</github.global.server>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <commons-codec.version>1.10</commons-codec.version>
         <jackson.version>2.8.9</jackson.version>
