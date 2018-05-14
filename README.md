@@ -1,6 +1,8 @@
 # seeuletter-java
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.seeuletter/seeuletter-java.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.seeuletter%22%20AND%20a%3A%22seeuletter-java%22)
+[![Dependency Status](https://beta.gemnasium.com/badges/github.com/seeuletter/seeuletter-java.svg)](https://beta.gemnasium.com/projects/github.com/seeuletter/seeuletter-java)
+
 
 Seeuletter.com Java wrapper is a simple but flexible wrapper for the [Seeuletter.com](https://www.seeuletter.com) API. See full Seeuletter.com documentation [here](https://docs.seeuletter.com/). For best results, be sure that you're using the latest version of the Seeuletter API and the latest version of the PHP wrapper.
 
