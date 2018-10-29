@@ -13,7 +13,7 @@ public class Example {
     public static void main(String[] args) throws Exception {
         System.out.println("Seeuletter Java Wrapper");
 
-        Seeuletter.init("test_f23ac669-f7ee-4f2a-a669-e843e9c2938c");
+        Seeuletter.init("test_7a6d67a5-1922-425f-9db0-ae4e4cbbdc6d");
 
 
         final Map<String, String> variables = new HashMap<String, String>();

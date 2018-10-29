@@ -9,7 +9,7 @@ public class SeeuletterTest {
 
     @Test
     public void testSeeuletterInit() {
-        final String API_KEY = "test_f23ac669-f7ee-4f2a-a669-e843e9c2938c";
+        final String API_KEY = "test_7a6d67a5-1922-425f-9db0-ae4e4cbbdc6d";
 
         Seeuletter.init(API_KEY);
         assertEquals(API_KEY, Seeuletter.apiKey);

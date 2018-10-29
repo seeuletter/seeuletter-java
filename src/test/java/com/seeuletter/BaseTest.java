@@ -6,7 +6,7 @@ public class BaseTest {
 
     @BeforeClass
     public static void beforeClass() {
-        Seeuletter.init("test_9de14732-7726-41c3-8e5f-daf071d2756a");
+        Seeuletter.init("test_7a6d67a5-1922-425f-9db0-ae4e4cbbdc6d");
     }
 
 }
