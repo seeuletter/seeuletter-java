@@ -34,7 +34,7 @@ Include the following in your `pom.xml` for Maven:
   <dependency>
     <groupId>com.seeuletter</groupId>
     <artifactId>seeuletter-java</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
   </dependency>
   ...
 </dependencies>
@@ -43,7 +43,7 @@ Include the following in your `pom.xml` for Maven:
 Gradle:
 
 ```groovy
-compile 'com.seeuletter:seeuletter-java:1.0.2'
+compile 'com.seeuletter:seeuletter-java:1.0.3'
 ```
 
 #### Initialization and Configuration

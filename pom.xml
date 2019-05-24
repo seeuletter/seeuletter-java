@@ -33,8 +33,8 @@
     <properties>
         <github.global.server>github</github.global.server>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <commons-codec.version>1.11</commons-codec.version>
-        <jackson.version>2.9.7</jackson.version>
+        <commons-codec.version>1.12</commons-codec.version>
+        <jackson.version>[2.9,)</jackson.version>
         <junit.version>4.12</junit.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
