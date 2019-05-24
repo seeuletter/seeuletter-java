@@ -3,7 +3,7 @@
     <groupId>com.seeuletter</groupId>
     <artifactId>seeuletter-java</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Parent pom for the Seeuletter API Java Wrapper</description>
@@ -27,7 +27,7 @@
         <connection>scm:git:https://github.com/seeuletter/seeuletter-java.git</connection>
         <developerConnection>scm:git:https://github.com/seeuletter/seeuletter-java.git</developerConnection>
         <url>https://github.com/seeuletter/seeuletter-java</url>
-        <tag>HEAD</tag>
+        <tag>v1.0.3</tag>
     </scm>
 
     <properties>
