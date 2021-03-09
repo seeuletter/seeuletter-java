@@ -38,9 +38,9 @@ public class LetterTest extends BaseTest {
         Letter testLetter = Letter.list().getResponseBody().getData().get(0);
 
         SeeuletterResponse<Letter> response = Letter.retrieve(testLetter.getId());
-        Letter Letter = response.getResponseBody();
+        Letter letter = response.getResponseBody();
 
-        assertEquals(testLetter.getId(), Letter.getId());
+        assertEquals(testLetter.getId(), letter.getId());
     }
 
     @Test

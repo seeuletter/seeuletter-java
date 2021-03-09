@@ -12,7 +12,11 @@ public class Address extends APIResource {
     public static final String RESOURCE = "addresses";
 
     @JsonProperty private final String name;
+    @JsonProperty private final String firstName;
+    @JsonProperty private final String lastName;
+    @JsonProperty private final String email;
     @JsonProperty private final String company;
+    @JsonProperty private final String status;
     @JsonProperty private final String line1;
     @JsonProperty private final String line2;
     @JsonProperty private final String line3;
@@ -24,7 +28,11 @@ public class Address extends APIResource {
     @JsonCreator
     public Address(
             @JsonProperty("name") final String name,
+            @JsonProperty("first_name") final String firstName,
+            @JsonProperty("last_name") final String lastName,
+            @JsonProperty("email") final String email,
             @JsonProperty("company") final String company,
+            @JsonProperty("status") final String status,
             @JsonProperty("address_line1") final String line1,
             @JsonProperty("address_line2") final String line2,
             @JsonProperty("address_line3") final String line3,
@@ -33,7 +41,11 @@ public class Address extends APIResource {
             @JsonProperty("address_postalcode") final String postalCode,
             @JsonProperty("address_country") final String country) {
         this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
         this.company = company;
+        this.status = status;
         this.line1 = line1;
         this.line2 = line2;
         this.line3 = line3;
@@ -47,8 +59,24 @@ public class Address extends APIResource {
         return name;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public String getCompany() {
         return company;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public String getLine1() {
@@ -83,7 +111,11 @@ public class Address extends APIResource {
     public String toString() {
         return "Address{" +
                 "name='" + name + '\'' +
+                ", first_name='" + firstName + '\'' +
+                ", last_name='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 ", company='" + company + '\'' +
+                ", status='" + status + '\'' +
                 ", line1='" + line1 + '\'' +
                 ", line2='" + line2 + '\'' +
                 ", line3='" + line3 + '\'' +
@@ -104,8 +136,28 @@ public class Address extends APIResource {
             return this;
         }
 
+        public RequestBuilder setFirstName(String firstName) {
+            params.put("first_name", firstName);
+            return this;
+        }
+
+        public RequestBuilder setLastName(String lastName) {
+            params.put("last_name", lastName);
+            return this;
+        }
+
+        public RequestBuilder setEmail(String email) {
+            params.put("email", email);
+            return this;
+        }
+
         public RequestBuilder setCompany(String company) {
             params.put("company", company);
+            return this;
+        }
+
+        public RequestBuilder setStatus(String status) {
+            params.put("status", status);
             return this;
         }
 
