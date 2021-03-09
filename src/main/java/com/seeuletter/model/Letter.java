@@ -22,42 +22,44 @@ public class Letter extends APIResource {
 
     public static final String RESOURCE = "letters";
 
-    @JsonProperty private final String _id;
-    @JsonProperty private final String description;
-    @JsonProperty private final String mode;
-    @JsonProperty private final Address to;
-    @JsonProperty private final Address from;
-    @JsonProperty private final String color;
-    @JsonProperty private final boolean bothSides;
-    @JsonProperty private final String addressPlacement;
-    @JsonProperty private final String postageType;
-    @JsonProperty private final String postageSpeed;
-    @JsonProperty private final boolean manageDeliveryProof;
-    @JsonProperty private final Integer pageCount;
-    @JsonProperty private final Integer pdfMargin;
-    @JsonProperty private final String envelope;
-    @JsonProperty private final com.seeuletter.model.File file;
-    @JsonProperty private final com.seeuletter.model.File filingProof;
-    @JsonProperty private final List<Event> events;
-    @JsonProperty private final Price price;
-    @JsonProperty private final String sourceFile;
-    @JsonProperty private final String sourceFileType;
-    @JsonProperty private final String sourceFile2;
-    @JsonProperty private final String sourceFile2Type;
-    @JsonProperty private final Integer sheetCount;
-    @JsonProperty private final String trackingNumber;
-    @JsonProperty private final LocalDate expectedDeliveryDate;
-    @JsonProperty private final ZonedDateTime createdAt;
-    @JsonProperty private final ZonedDateTime updatedAt;
-    @JsonProperty private final ZonedDateTime sendDate;
-    @JsonProperty private final Map<String, String> metadata;
-    @JsonProperty private final Map<String, String> variables;
-    @JsonProperty private final boolean canceled;
-    @JsonProperty private final String object;
+    @JsonProperty protected final String _id;
+    @JsonProperty protected final String channel;
+    @JsonProperty protected final String description;
+    @JsonProperty protected final String mode;
+    @JsonProperty protected final Address to;
+    @JsonProperty protected final Address from;
+    @JsonProperty protected final String color;
+    @JsonProperty protected final boolean bothSides;
+    @JsonProperty protected final String addressPlacement;
+    @JsonProperty protected final String postageType;
+    @JsonProperty protected final String postageSpeed;
+    @JsonProperty protected final boolean manageDeliveryProof;
+    @JsonProperty protected final Integer pageCount;
+    @JsonProperty protected final Integer pdfMargin;
+    @JsonProperty protected final String envelope;
+    @JsonProperty protected final com.seeuletter.model.File file;
+    @JsonProperty protected final com.seeuletter.model.File filingProof;
+    @JsonProperty protected final List<Event> events;
+    @JsonProperty protected final Price price;
+    @JsonProperty protected final String sourceFile;
+    @JsonProperty protected final String sourceFileType;
+    @JsonProperty protected final String sourceFile2;
+    @JsonProperty protected final String sourceFile2Type;
+    @JsonProperty protected final Integer sheetCount;
+    @JsonProperty protected final String trackingNumber;
+    @JsonProperty protected final LocalDate expectedDeliveryDate;
+    @JsonProperty protected final ZonedDateTime createdAt;
+    @JsonProperty protected final ZonedDateTime updatedAt;
+    @JsonProperty protected final ZonedDateTime sendDate;
+    @JsonProperty protected final Map<String, String> metadata;
+    @JsonProperty protected final Map<String, String> variables;
+    @JsonProperty protected final boolean canceled;
+    @JsonProperty protected final String object;
 
     @JsonCreator
     public Letter(
             @JsonProperty("_id") final String _id,
+            @JsonProperty("channel") final String channel,
             @JsonProperty("description") final String description,
             @JsonProperty("mode") final String mode,
             @JsonProperty("to") final Address to,
@@ -90,6 +92,7 @@ public class Letter extends APIResource {
             @JsonProperty("canceled") final boolean canceled,
             @JsonProperty("object") final String object) {
         this._id = _id;
+        this.channel = channel;
         this.description = description;
         this.mode = mode;
         this.to = to;
@@ -123,8 +126,10 @@ public class Letter extends APIResource {
         this.object = object;
     }
 
-    public String getId() {
-        return _id;
+    public String getId() { return _id; }
+
+    public String getChannel() {
+        return channel;
     }
 
     public String getDescription() {
@@ -171,7 +176,6 @@ public class Letter extends APIResource {
         return sourceFileType;
     }
 
-
     public boolean isManageDeliveryProof() {
         return manageDeliveryProof;
     }
@@ -192,7 +196,6 @@ public class Letter extends APIResource {
         return envelope;
     }
 
-
     public List<Event> getEvents() {
         return events;
     }
@@ -200,6 +203,7 @@ public class Letter extends APIResource {
     public com.seeuletter.model.File getFile() {
         return file;
     }
+
     public com.seeuletter.model.File getFilingProof() {
         return filingProof;
     }
@@ -256,6 +260,7 @@ public class Letter extends APIResource {
     public String toString() {
         return "Letter{" +
                 "_id='" + _id + '\'' +
+                ", channel='" + channel + '\'' +
                 ", description='" + description + '\'' +
                 ", mode='" + mode + '\'' +
                 ", to=" + to +
@@ -321,7 +326,6 @@ public class Letter extends APIResource {
             return this;
         }
 
-
         public RequestBuilder setColor(String color) {
             params.put("color", color);
             return this;
@@ -358,7 +362,6 @@ public class Letter extends APIResource {
             params.put("source_file_2_type", sourceFile2Type);
             return this;
         }
-
 
         public RequestBuilder setVariables(Map<String, String> variables) {
             params.put("variables", variables);
@@ -409,7 +412,6 @@ public class Letter extends APIResource {
             params.put("metadata", metadata);
             return this;
         }
-
 
         public SeeuletterResponse<Letter> create() throws APIException, IOException, AuthenticationException, InvalidRequestException, RateLimitException {
             return create(null);
