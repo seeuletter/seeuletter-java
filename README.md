@@ -88,8 +88,7 @@ SeeuletterResponse<Letter> response = new Letter.RequestBuilder()
             .setPostalCode("75010")
             .setCountry("France")
     )
-    .setSourceFileType("file")
-    .setSourceFile(file)
+    .setSourceFile(file, "file")
     .setPostageSpeed("D1")
     .setDescription("Sent with the Java Wrapper")
     .setBothSides(false)
@@ -104,6 +103,33 @@ Letter letter = response.getResponseBody();
 System.out.println(letter);
 ```
 
+#### Create a new LetterElectronic
+
+```java
+Seeuletter.init("test_12345678901234567890");
+
+final File file = new File(getClass().getClassLoader().getResource("local_file.pdf").getPath());
+
+SeeuletterResponse<LetterElectronic> responseElectronic = new LetterElectronic.RequestBuilder()
+    .setTo(
+        new Address.RequestBuilder()
+            .setFirstName("Erlich")
+            .setLastName("Dumas")
+            .setEmail("seeuletter@example.com")
+            .setStatus("individual")
+    )
+    .setPostageType("lre")
+    .setSourceFile("<h1>Hello from {{website}}</h1>", "html")
+    .setDescription("Sent Electronic with the Java Wrapper")
+    .setContent("Please review the attached documents:")
+    .setVariables(variables)
+    .create();
+
+LetterElectronic letterElectronic = responseElectronic.getResponseBody();
+
+System.out.println(letterElectronic);
+```
+
 #### Get a specific letter
 
 ```java
@@ -114,8 +140,6 @@ Letter Letter = response.getResponseBody();
 
 System.out.println(Letter);
 ```
-
-
 
 ## Testing
 
