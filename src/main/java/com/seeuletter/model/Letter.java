@@ -22,6 +22,8 @@ public class Letter extends APIResource {
 
     public static final String RESOURCE = "letters";
 
+    public static Integer lastSourceFileIndex = 1;
+
     @JsonProperty protected final String _id;
     @JsonProperty protected final String channel;
     @JsonProperty protected final String description;
@@ -43,8 +45,6 @@ public class Letter extends APIResource {
     @JsonProperty protected final Price price;
     @JsonProperty protected final String sourceFile;
     @JsonProperty protected final String sourceFileType;
-    @JsonProperty protected final String sourceFile2;
-    @JsonProperty protected final String sourceFile2Type;
     @JsonProperty protected final Integer sheetCount;
     @JsonProperty protected final String trackingNumber;
     @JsonProperty protected final LocalDate expectedDeliveryDate;
@@ -69,8 +69,6 @@ public class Letter extends APIResource {
             @JsonProperty("address_placement") final String addressPlacement,
             @JsonProperty("source_file_type") final String sourceFileType,
             @JsonProperty("source_file") final String sourceFile,
-            @JsonProperty("source_file_2") final String sourceFile2,
-            @JsonProperty("source_file_2_type") final String sourceFile2Type,
             @JsonProperty("postage_type") final String postageType,
             @JsonProperty("postage_speed") final String postageSpeed,
             @JsonProperty("manage_delivery_proof") final boolean manageDeliveryProof,
@@ -112,8 +110,6 @@ public class Letter extends APIResource {
         this.filingProof = filingProof;
         this.events = events;
         this.price = price;
-        this.sourceFile2 = sourceFile2;
-        this.sourceFile2Type = sourceFile2Type;
         this.sheetCount = sheetCount;
         this.trackingNumber = trackingNumber;
         this.expectedDeliveryDate = expectedDeliveryDate;
@@ -124,6 +120,8 @@ public class Letter extends APIResource {
         this.variables = variables;
         this.canceled = canceled;
         this.object = object;
+
+        lastSourceFileIndex = 1;
     }
 
     public String getId() { return _id; }
@@ -172,9 +170,7 @@ public class Letter extends APIResource {
         return sourceFile;
     }
 
-    public String getSourceFileType() {
-        return sourceFileType;
-    }
+    public String getSourceFileType() { return sourceFileType; }
 
     public boolean isManageDeliveryProof() {
         return manageDeliveryProof;
@@ -206,14 +202,6 @@ public class Letter extends APIResource {
 
     public com.seeuletter.model.File getFilingProof() {
         return filingProof;
-    }
-
-    public String getSourceFile2() {
-        return sourceFile2;
-    }
-
-    public String getSourceFile2Type() {
-        return sourceFile2Type;
     }
 
     public Integer getSheetCount() {
@@ -270,8 +258,6 @@ public class Letter extends APIResource {
                 ", addressPlacement='" + addressPlacement + '\'' +
                 ", sourceFile='" + sourceFile + '\'' +
                 ", sourceFileType='" + sourceFileType + '\'' +
-                ", sourceFile2='" + sourceFile2 + '\'' +
-                ", sourceFile2Type='" + sourceFile2Type + '\'' +
                 ", postageType='" + postageType + '\'' +
                 ", postageSpeed='" + postageSpeed + '\'' +
                 ", manageDeliveryProof=" + manageDeliveryProof +
@@ -331,35 +317,34 @@ public class Letter extends APIResource {
             return this;
         }
 
-        public RequestBuilder setSourceFile(String file) {
-            params.put("source_file", file);
+        public RequestBuilder setSourceFile(String file, String sourceFileType) {
+
+            if(lastSourceFileIndex > 1){
+                params.put("source_file_" + lastSourceFileIndex, file);
+                params.put("source_file_" + lastSourceFileIndex + "_type", sourceFileType);
+            } else {
+                params.put("source_file", file);
+                params.put("source_file_type", sourceFileType);
+            }
+
+            lastSourceFileIndex++;
+
             return this;
         }
 
-        public RequestBuilder setSourceFile(File file) {
+        public RequestBuilder setSourceFile(java.io.File file, String sourceFileType) {
             isMultipart = true;
-            params.put("source_file", file);
-            return this;
-        }
 
-        public RequestBuilder setSourceFileType(String sourceFileType) {
-            params.put("source_file_type", sourceFileType);
-            return this;
-        }
+            if(lastSourceFileIndex > 1){
+                params.put("source_file_" + lastSourceFileIndex, file);
+                params.put("source_file_" + lastSourceFileIndex + "_type", sourceFileType);
+            } else {
+                params.put("source_file", file);
+                params.put("source_file_type", sourceFileType);
+            }
 
-        public RequestBuilder setSourceFile2(String sourceFile2) {
-            params.put("source_file_2", sourceFile2);
-            return this;
-        }
+            lastSourceFileIndex++;
 
-        public RequestBuilder setSourceFile2(File sourceFile2) {
-            isMultipart = true;
-            params.put("source_file_2", sourceFile2);
-            return this;
-        }
-
-        public RequestBuilder setSourceFile2Type(String sourceFile2Type) {
-            params.put("source_file_2_type", sourceFile2Type);
             return this;
         }
 

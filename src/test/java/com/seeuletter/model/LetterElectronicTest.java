@@ -14,32 +14,14 @@ import static org.junit.Assert.*;
 public class LetterElectronicTest extends BaseTest {
 
     @Test
-    public void testListLettersElectronic() throws Exception {
-        SeeuletterResponse<LetterCollection> response = LetterElectronic.list();
-
-        assertEquals(200, response.getResponseCode());
-        assertThat(response.getResponseBody().getData().get(0), instanceOf(LetterElectronic.class));
-    }
-
-    @Test
     public void testListLetterElectronicWithParams() throws Exception {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("limit", 1);
+        params.put("channel", "electronic");
 
         SeeuletterResponse<LetterCollection> response = LetterElectronic.list(params);
 
         assertEquals(200, response.getResponseCode());
         assertThat(response.getResponseBody().getData().get(0), instanceOf(LetterElectronic.class));
-    }
-
-    @Test
-    public void testRetrieveLetterElectronic() throws Exception {
-        Letter testLetter = LetterElectronic.list().getResponseBody().getData().get(0);
-
-        SeeuletterResponse<Letter> response = LetterElectronic.retrieve(testLetter.getId());
-        Letter letter = response.getResponseBody();
-
-        assertEquals(testLetter.getId(), letter.getId());
     }
 
     @Test
@@ -55,8 +37,7 @@ public class LetterElectronicTest extends BaseTest {
                         .setStatus("individual")
                 )
                 .setPostageType("lre")
-                .setSourceFile(file)
-                .setSourceFileType("file")
+                .setSourceFile(file, "file")
                 .setDescription("Sent Electronic with the Java Wrapper")
                 .setContent("Please review the attached documents:")
                 .create();
