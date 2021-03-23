@@ -37,8 +37,6 @@ public class LetterElectronic extends Letter{
             @JsonProperty("address_placement") final String addressPlacement,
             @JsonProperty("source_file_type") final String sourceFileType,
             @JsonProperty("source_file") final String sourceFile,
-            @JsonProperty("source_file_2") final String sourceFile2,
-            @JsonProperty("source_file_2_type") final String sourceFile2Type,
             @JsonProperty("postage_type") final String postageType,
             @JsonProperty("postage_speed") final String postageSpeed,
             @JsonProperty("manage_delivery_proof") final boolean manageDeliveryProof,
@@ -75,8 +73,6 @@ public class LetterElectronic extends Letter{
                 "none",
                 sourceFileType,
                 sourceFile,
-                sourceFile2,
-                sourceFile2Type,
                 postageType,
                 "none",
                 manageDeliveryProof,
@@ -103,6 +99,8 @@ public class LetterElectronic extends Letter{
         this.downloadProof = downloadProof;
         this.rejectionProof = rejectionProof;
         this.negligenceProof = negligenceProof;
+
+        lastSourceFileIndex = 1;
     }
 
     public String getContent() { return content; }
@@ -129,8 +127,6 @@ public class LetterElectronic extends Letter{
                 ", addressPlacement='" + addressPlacement + '\'' +
                 ", sourceFile='" + sourceFile + '\'' +
                 ", sourceFileType='" + sourceFileType + '\'' +
-                ", sourceFile2='" + sourceFile2 + '\'' +
-                ", sourceFile2Type='" + sourceFile2Type + '\'' +
                 ", postageType='" + postageType + '\'' +
                 ", postageSpeed='" + postageSpeed + '\'' +
                 ", manageDeliveryProof=" + manageDeliveryProof +
@@ -190,35 +186,34 @@ public class LetterElectronic extends Letter{
             return this;
         }
 
-        public LetterElectronic.RequestBuilder setSourceFile(String file) {
-            params.put("source_file", file);
+        public LetterElectronic.RequestBuilder setSourceFile(String file, String sourceFileType) {
+
+            if(lastSourceFileIndex > 1){
+                params.put("source_file_" + lastSourceFileIndex, file);
+                params.put("source_file_" + lastSourceFileIndex + "_type", sourceFileType);
+            } else {
+                params.put("source_file", file);
+                params.put("source_file_type", sourceFileType);
+            }
+
+            lastSourceFileIndex++;
+
             return this;
         }
 
-        public LetterElectronic.RequestBuilder setSourceFile(java.io.File file) {
+        public LetterElectronic.RequestBuilder setSourceFile(java.io.File file, String sourceFileType) {
             isMultipart = true;
-            params.put("source_file", file);
-            return this;
-        }
 
-        public LetterElectronic.RequestBuilder setSourceFileType(String sourceFileType) {
-            params.put("source_file_type", sourceFileType);
-            return this;
-        }
+            if(lastSourceFileIndex > 1){
+                params.put("source_file_" + lastSourceFileIndex, file);
+                params.put("source_file_" + lastSourceFileIndex + "_type", sourceFileType);
+            } else {
+                params.put("source_file", file);
+                params.put("source_file_type", sourceFileType);
+            }
 
-        public LetterElectronic.RequestBuilder setSourceFile2(String sourceFile2) {
-            params.put("source_file_2", sourceFile2);
-            return this;
-        }
+            lastSourceFileIndex++;
 
-        public LetterElectronic.RequestBuilder setSourceFile2(java.io.File sourceFile2) {
-            isMultipart = true;
-            params.put("source_file_2", sourceFile2);
-            return this;
-        }
-
-        public LetterElectronic.RequestBuilder setSourceFile2Type(String sourceFile2Type) {
-            params.put("source_file_2_type", sourceFile2Type);
             return this;
         }
 
