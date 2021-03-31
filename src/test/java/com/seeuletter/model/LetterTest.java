@@ -38,9 +38,9 @@ public class LetterTest extends BaseTest {
         Letter testLetter = Letter.list().getResponseBody().getData().get(0);
 
         SeeuletterResponse<Letter> response = Letter.retrieve(testLetter.getId());
-        Letter Letter = response.getResponseBody();
+        Letter letter = response.getResponseBody();
 
-        assertEquals(testLetter.getId(), Letter.getId());
+        assertEquals(testLetter.getId(), letter.getId());
     }
 
     @Test
@@ -49,14 +49,13 @@ public class LetterTest extends BaseTest {
 
         SeeuletterResponse<Letter> response = new Letter.RequestBuilder()
                 .setDescription("Test Letter")
-                .setSourceFile(file)
+                .setSourceFile(file, "file")
                 .setTo(new Address.RequestBuilder()
                         .setName("Seeuletter")
                         .setLine1("25 passage dubail")
                         .setCity("Paris")
                         .setPostalCode("75010")
                         .setCountry("France"))
-                .setSourceFileType("file")
                 .setColor("bw")
                 .setPostageType("prioritaire")
                 .create();
@@ -83,10 +82,8 @@ public class LetterTest extends BaseTest {
                         .setCity("Paris")
                         .setPostalCode("75010")
                         .setCountry("France"))
-                .setSourceFile("<h1>Hello from {{name}}</h1>")
-                .setSourceFileType("html")
-                .setSourceFile2(file)
-                .setSourceFile2Type("file")
+                .setSourceFile("<h1>Hello from {{name}}</h1>", "html")
+                .setSourceFile(file, "file")
                 .setPostageType("prioritaire")
                 .setPdfMargin(20)
                 .setVariables(variables)

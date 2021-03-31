@@ -3,6 +3,7 @@ package com.seeuletter;
 
 import com.seeuletter.model.Address;
 import com.seeuletter.model.Letter;
+import com.seeuletter.model.LetterElectronic;
 import com.seeuletter.net.SeeuletterResponse;
 
 import java.util.HashMap;
@@ -15,10 +16,10 @@ public class Example {
 
         Seeuletter.init("test_7a6d67a5-1922-425f-9db0-ae4e4cbbdc6d");
 
+        System.out.println("----Paper");
 
         final Map<String, String> variables = new HashMap<String, String>();
         variables.put("website", "Seeuletter.com");
-
 
         SeeuletterResponse<Letter> response = new Letter.RequestBuilder()
                 .setTo(
@@ -29,11 +30,10 @@ public class Example {
                                 .setPostalCode("75010")
                                 .setCountry("France")
                 )
-                .setSourceFileType("html")
                 .setPostageSpeed("D1")
                 .setDescription("Sent with the Java Wrapper")
                 .setBothSides(false)
-                .setSourceFile("<h1>Hello from {{website}}</h1>")
+                .setSourceFile("<h1>Hello from {{website}}</h1>", "html")
                 .setPostageType("prioritaire")
                 .setColor("bw")
                 .setVariables(variables)
@@ -43,6 +43,7 @@ public class Example {
         Letter letter = response.getResponseBody();
 
         System.out.println(letter);
+        System.out.println(letter.getChannel());
         System.out.println(letter.getCreatedAt());
         System.out.println(letter.getTo().getPostalCode());
         System.out.println(letter.getFile().getUrl());
@@ -52,15 +53,47 @@ public class Example {
         //System.out.println(letter.getFile());
 
 
+        SeeuletterResponse<Letter> response_get = Letter.retrieve(letter.getId());
+        Letter letter_get = response_get.getResponseBody();
+
+        System.out.println(letter_get);
+
+        System.out.println("----Electronic");
+
+        SeeuletterResponse<LetterElectronic> responseElectronic = new LetterElectronic.RequestBuilder()
+                .setTo(
+                    new Address.RequestBuilder()
+                        .setFirstName("Erlich")
+                        .setLastName("Dumas")
+                        .setEmail("seeuletter@example.com")
+                        .setStatus("individual")
+                )
+                .setPostageType("lre")
+                .setSourceFile("<h1>Hello from {{website}}</h1>", "html")
+                .setDescription("Sent Electronic with the Java Wrapper")
+                .setContent("Please review the attached documents:")
+                .create();
+
+        LetterElectronic letterElectronic = responseElectronic.getResponseBody();
+
+        System.out.println(letterElectronic);
+        System.out.println(letterElectronic.getChannel());
+        System.out.println(letterElectronic.getCreatedAt());
+        System.out.println(letterElectronic.getTo().getEmail());
+        System.out.println(letterElectronic.getFile().getUrl());
+        System.out.println(letterElectronic.getPrice());
+        System.out.println(letterElectronic.getVariables());
+        System.out.println(letterElectronic.getEvents());
 
 
-        SeeuletterResponse<Letter> response_get = Letter.retrieve("B18L9ljuz");
-        Letter Letter = response_get.getResponseBody();
+        SeeuletterResponse<Letter> responseElectronic_get = Letter.retrieve(letterElectronic.getId());
+        Letter letterElectronic_get = responseElectronic_get.getResponseBody();
 
+        System.out.println(letterElectronic_get);
 
-        System.out.println(Letter);
 
     } // end method main
 
 
 }
+
