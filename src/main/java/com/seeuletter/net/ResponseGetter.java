@@ -8,6 +8,7 @@ import com.seeuletter.exception.APIException;
 import com.seeuletter.exception.AuthenticationException;
 import com.seeuletter.exception.InvalidRequestException;
 import com.seeuletter.exception.RateLimitException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.File;
@@ -29,6 +30,7 @@ import java.util.Map;
 import static com.seeuletter.net.APIResource.CHARSET;
 import static com.seeuletter.net.APIResource.RequestMethod.DELETE;
 import static com.seeuletter.net.APIResource.RequestMethod.POST;
+import static com.seeuletter.net.APIResource.RequestMethod.PUT;
 
 public class ResponseGetter implements IResponseGetter {
 
@@ -96,12 +98,34 @@ public class ResponseGetter implements IResponseGetter {
         return conn;
     }
 
-    private static java.net.HttpURLConnection createPostConnection(String url, String query, RequestOptions options) throws IOException {
+    private static java.net.HttpURLConnection createPostConnection(String url, String query, APIResource.RequestType type, RequestOptions options) throws IOException {
         java.net.HttpURLConnection conn = createDefaultConnection(url, options);
 
         conn.setDoOutput(true);
         conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", String.format("application/x-www-form-urlencoded;charset=%s", APIResource.CHARSET));
+
+        String contentType = String.format("application/x-www-form-urlencoded;charset=%s", APIResource.CHARSET);
+        if (type == APIResource.RequestType.JSON) {
+            contentType = "application/json";
+        }
+        conn.setRequestProperty("Content-Type", contentType);
+
+        try (OutputStream output = conn.getOutputStream()) {
+            output.write(query.getBytes(APIResource.CHARSET));
+        }
+        return conn;
+    }
+
+    private static java.net.HttpURLConnection createPutConnection(String url, String query, APIResource.RequestType type, RequestOptions options) throws IOException {
+        java.net.HttpURLConnection conn = createDefaultConnection(url, options);
+
+        conn.setDoOutput(true);
+        conn.setRequestMethod("PUT");
+        String contentType = String.format("application/x-www-form-urlencoded;charset=%s", APIResource.CHARSET);
+        if (type == APIResource.RequestType.JSON) {
+            contentType = "application/json";
+        }
+        conn.setRequestProperty("Content-Type", contentType);
 
         try (OutputStream output = conn.getOutputStream()) {
             output.write(query.getBytes(APIResource.CHARSET));
@@ -135,6 +159,17 @@ public class ResponseGetter implements IResponseGetter {
         }
 
         return queryStringBuffer.toString();
+    }
+
+    static String createQueryJSON(Map<String, Object> params) throws JsonProcessingException {
+        if (params == null) {
+            return "";
+        }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(params);
+
+        return json;
     }
 
     private static String urlEncodePair(String key, String value) throws UnsupportedEncodingException {
@@ -208,11 +243,13 @@ public class ResponseGetter implements IResponseGetter {
         }
     }
 
-    private static <T> SeeuletterResponse<T> makeURLConnectionRequest(APIResource.RequestMethod method, Class<T> clazz, String url, String query, RequestOptions options) throws APIException, RateLimitException, InvalidRequestException, IOException {
+    private static <T> SeeuletterResponse<T> makeURLConnectionRequest(APIResource.RequestMethod method, Class<T> clazz, String url, String query, APIResource.RequestType type, RequestOptions options) throws APIException, RateLimitException, InvalidRequestException, IOException {
         java.net.HttpURLConnection conn = null;
         try {
             if (method == POST) {
-                conn = createPostConnection(url, query, options);
+                conn = createPostConnection(url, query, type, options);
+            } else if (method == PUT) {
+                conn = createPutConnection(url, query, type, options);
             } else if (method == DELETE) {
                 conn = createDeleteConnection(url, options);
             } else {
@@ -279,7 +316,11 @@ public class ResponseGetter implements IResponseGetter {
         }
 
         String query = createQuery(params);
-        return makeURLConnectionRequest(method, clazz, seeuletterURL, query, options);
+        if (type == APIResource.RequestType.JSON) {
+            query = createQueryJSON(params);
+        }
+
+        return makeURLConnectionRequest(method, clazz, seeuletterURL, query, type, options);
     }
 
 }
