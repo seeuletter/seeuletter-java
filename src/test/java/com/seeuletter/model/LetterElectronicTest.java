@@ -20,34 +20,6 @@ public class LetterElectronicTest extends BaseTest {
 
         SeeuletterResponse<LetterCollection> response = LetterElectronic.list(params);
 
-        assertEquals(200, response.getResponseCode());
-        assertThat(response.getResponseBody().getData().get(0), instanceOf(LetterElectronic.class));
-    }
-
-    @Test
-    public void testCreateFileLetterElectronic() throws Exception {
-        final File file = new File(getClass().getClassLoader().getResource("PDF_Lettre_Bienvenue.pdf").getPath());
-
-        SeeuletterResponse<LetterElectronic> responseElectronic = new LetterElectronic.RequestBuilder()
-                .setTo(
-                    new Address.RequestBuilder()
-                        .setFirstName("Erlich")
-                        .setLastName("Dumas")
-                        .setEmail("seeuletter@example.com")
-                        .setStatus("individual")
-                )
-                .setPostageType("lre")
-                .setSourceFile(file, "file")
-                .setDescription("Sent Electronic with the Java Wrapper")
-                .setContent("Please review the attached documents:")
-                .create();
-
-        LetterElectronic letterElectronic = responseElectronic.getResponseBody();
-
-        assertEquals(200, responseElectronic.getResponseCode());
-        assertNotNull(letterElectronic.getId());
-        assertEquals("letter", letterElectronic.getObject());
-    }
 
 }
 

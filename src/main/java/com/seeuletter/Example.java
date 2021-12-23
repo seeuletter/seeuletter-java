@@ -1,9 +1,11 @@
 package com.seeuletter;
 
-
 import com.seeuletter.model.Address;
 import com.seeuletter.model.Letter;
 import com.seeuletter.model.LetterElectronic;
+import com.seeuletter.model.Account;
+import com.seeuletter.model.Invoice;
+import com.seeuletter.model.InvoiceCollection;
 import com.seeuletter.net.SeeuletterResponse;
 
 import java.util.HashMap;
@@ -16,6 +18,7 @@ public class Example {
 
         Seeuletter.init("test_7a6d67a5-1922-425f-9db0-ae4e4cbbdc6d");
 
+        System.out.println("----LETTERS");
         System.out.println("----Paper");
 
         final Map<String, String> variables = new HashMap<String, String>();
@@ -91,6 +94,42 @@ public class Example {
 
         System.out.println(letterElectronic_get);
 
+        System.out.println("----ACCOUNTS");
+
+        SeeuletterResponse<Account> responseAccount = new Account.RequestBuilder()
+              .setEmail("msb.partner@example.com")
+              .setName("Erlich Bachman")
+              .setPhone("+33104050607")
+              .setCompanyName("MSB Partner from Java Wrapper")
+              .setAddressLine1("30 rue de rivoli")
+              .setAddressLine2("")
+              .setAddressCity("Paris")
+              .setAddressCountry("France")
+              .setAddressPostalCode("75004")
+              .create();
+
+        Account account = responseAccount.getResponseBody();
+
+        System.out.println(account);
+        System.out.println(account.getUser());
+        System.out.println(account.getCompany());
+        System.out.println(account.getCompany().getApiKeys());
+
+        SeeuletterResponse<Account> responseAccountUpdate = new Account.RequestBuilder()
+              .setEmail("msb.partner3@example.com")
+              .update(account.getCompany().getId());
+
+        System.out.println("----INVOICES");
+
+        SeeuletterResponse<InvoiceCollection> responseInvoiceList = Invoice.list();
+
+        SeeuletterResponse<Invoice> responseInvoiceGet = Invoice.retrieve(responseInvoiceList.getResponseBody().getData().get(0).getId());
+        Invoice invoice = responseInvoiceGet.getResponseBody();
+
+        System.out.println(invoice);
+        System.out.println(invoice.getInvoiceNumber());
+        System.out.println(invoice.getTotal());
+        System.out.println(invoice.getInvoiceLines());
 
     } // end method main
 
