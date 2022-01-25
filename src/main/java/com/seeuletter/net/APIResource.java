@@ -15,11 +15,11 @@ public abstract class APIResource  {
     public static final String CHARSET = "UTF-8";
 
     public enum RequestMethod {
-        GET, POST, DELETE
+        GET, POST, PUT, DELETE
     }
 
     public enum RequestType {
-        NORMAL, MULTIPART
+        NORMAL, MULTIPART, JSON
     }
 
     public static <T> SeeuletterResponse<T> request(APIResource.RequestMethod method, APIResource.RequestType type,

@@ -9,8 +9,11 @@ Seeuletter.com Java wrapper is a simple but flexible wrapper for the [Seeuletter
 - [Getting Started](#getting-started)
   - [Registration](#registration)
   - [Installation](#installation)
-  - [Usage](#usage)
-- [Examples](#examples)
+  - [Letters](#letters)
+  - [Accounts](#accounts)
+  - [Invoices](#invoices)
+- [Example](#example)
+- [Testing](#testing)
 
 ## Getting Started
 
@@ -67,15 +70,12 @@ import com.seeuletter.net.SeeuletterResponse;
 Seeuletter.init("yourApiKey");
 ```
 
-### Usage
-
-We've provided examples in the `seeuletter-java-examples/` package that has examples of how to use the seeuletter-java wrapper with some of our core endpoints.
-
+### Letters
 
 #### Create a new Letter
 
 ```java
-Seeuletter.init("test_12345678901234567890");
+Seeuletter.init("YOUR API KEY");
 
 final File file = new File(getClass().getClassLoader().getResource("local_file.pdf").getPath());
 
@@ -106,7 +106,7 @@ System.out.println(letter);
 #### Create a new LetterElectronic
 
 ```java
-Seeuletter.init("test_12345678901234567890");
+Seeuletter.init("YOUR API KEY");
 
 final File file = new File(getClass().getClassLoader().getResource("local_file.pdf").getPath());
 
@@ -133,13 +133,77 @@ System.out.println(letterElectronic);
 #### Get a specific letter
 
 ```java
-Seeuletter.init("test_12345678901234567890");
+Seeuletter.init("YOUR API KEY");
 
 SeeuletterResponse<Letter> response = Letter.retrieve("LETTER_ID");
 Letter Letter = response.getResponseBody();
 
 System.out.println(Letter);
 ```
+
+### Accounts
+
+#### Create a new account for the company
+
+```java
+Seeuletter.init("YOUR API KEY");
+
+SeeuletterResponse<Account> response = new Account.RequestBuilder()
+      .setEmail("msb.partner@example.com")
+      .setName("Erlich Bachman")
+      .setPhone("+33104050607")
+      .setCompanyName("MSB Partner from Java Wrapper")
+      .setAddressLine1("30 rue de rivoli")
+      .setAddressLine2("")
+      .setAddressCity("Paris")
+      .setAddressCountry("France")
+      .setAddressPostalCode("75004")
+      .create();
+
+Account account = response.getResponseBody();
+
+System.out.println(response);
+```
+
+#### Update the account company email
+
+```java
+Seeuletter.init("YOUR API KEY");
+
+SeeuletterResponse<Account> responseUpdate = new Account.RequestBuilder()
+      .setEmail("msb.partner3@example.com")
+      .update("ACCOUNT COMPANY ID");
+
+System.out.println(response);
+```
+
+### Invoices
+
+#### List all invoices for a company
+
+```java
+Seeuletter.init("YOUR API KEY");
+
+SeeuletterResponse<InvoiceCollection> response = Invoice.list();
+InvoiceCollection accounts = response.getResponseBody();
+
+System.out.println(response);
+```
+
+#### Retrieve a specific invoice
+
+```java
+Seeuletter.init("YOUR API KEY");
+
+SeeuletterResponse<Invoice> response = Invoice.retrieve("INVOICE ID");
+Invoice invoice = response.getResponseBody();
+
+System.out.println(response);
+```
+
+## Example
+
+We've provided examples in the `seeuletter-java-examples/` package that has examples of how to use the seeuletter-java wrapper with some of our core endpoints.
 
 ## Testing
 
